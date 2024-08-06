@@ -32,7 +32,7 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
         if (!claim.status().equals(ClaimStatus.REFUNDED)) {
             return;
         }
-        Payment payment = paymentRepositoryApi.createPayment(claim.orderId(), claim.refundAmount());
+        Payment payment = paymentRepositoryApi.createPayment(claim.orderId(), claim.refundAmount(), claim.customerId());
         paymentProducerApi.send(payment);
     }
 

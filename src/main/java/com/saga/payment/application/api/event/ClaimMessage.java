@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.saga.payment.application.api.enums.ClaimEventStatus;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ClaimMessage(
@@ -11,6 +12,7 @@ public record ClaimMessage(
         Integer itemId,
         String orderId,
         BigDecimal refundAmount,
-        ClaimEventStatus status
+        ClaimEventStatus status,
+        UUID customerId
 ) {
 }

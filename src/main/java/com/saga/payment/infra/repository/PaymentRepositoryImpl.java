@@ -28,13 +28,12 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
     }
 
     @Override
-    public Payment createPayment(String orderId, BigDecimal amount) {
+    public Payment createPayment(String orderId, BigDecimal amount, UUID customerId) {
         PaymentEntity payment = PaymentEntity.builder()
                 .status(PaymentTransactionStatus.CREATED)
                 .transactionAmount(amount)
                 .transactionId(UUID.randomUUID())
-                // todo pass customer id from claim
-                .customerId(UUID.randomUUID())
+                .customerId(customerId)
                 .orderId(orderId)
                 .build();
         return mapper.toDomain(paymentEntityRepository.save(payment));

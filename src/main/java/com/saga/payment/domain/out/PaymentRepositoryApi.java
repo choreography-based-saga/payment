@@ -11,7 +11,7 @@ public interface PaymentRepositoryApi {
 
     List<Payment> findAll();
 
-    Payment createPayment(String orderId, BigDecimal amount);
+    Payment createPayment(String orderId, BigDecimal amount, UUID customerId);
 
     List<Payment> createBankTransaction(List<Payment> payments);
 
