@@ -2,45 +2,10 @@ name: Build and push to ECR
 on:
   push:
     branches: [master]
-  workflow_dispatch: 
+  workflow_dispatch:
 jobs:
-  build-image:
-    runs-on: ubuntu-latest
-    env:
-      AWS_REGION: ${{ vars.AWS_REGION }}
-    steps:
-      - name: Pull repository
-        uses: actions/checkout@v4
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
-        with:
-          gradle-version: wrapper
-      - name: Build with Gradle Wrapper
-        run: ./gradlew clean build
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-and-push
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: saga-choreography/payment
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          # Build a docker container and
-          # push it to ECR
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG::7} -f ./Dockerfile .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG::7}
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG::7}" >> $GITHUB_OUTPUT
-          
+  image-build:
+    uses: choreography-based-saga/github-actions-templates/.github/workflows/build-image-and-push-to-ecr.yaml@master
+    with:
+      JAVA_VERSION: "21"
+      IMAGE_PATH: "saga-choreography/payment"
