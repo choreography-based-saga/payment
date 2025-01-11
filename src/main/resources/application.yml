@@ -2,9 +2,9 @@ spring:
   application:
     name: payment
   datasource:
-    url: jdbc:postgresql://localhost:5431/paymentdb
-    password: postgres
-    username: postgres
+    url: jdbc:postgresql://${POSTGRES_URL:localhost:5431}/paymentdb
+    password: ${POSTGRES_PASS:postgres}
+    username: ${POSTGRES_USER:postgres}
   cloud:
     function:
       definition: payment;claim;order;
