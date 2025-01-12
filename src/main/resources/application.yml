@@ -19,7 +19,7 @@ spring:
             autoCommitOnError: true
             autoCommitOffset: true
         binder:
-          brokers: localhost:9092
+          brokers: ${KAFKA_BROKER:localhost:9092}
           minPartitionCount: 4
           autoAddPartitions: true
           consumerProperties:
