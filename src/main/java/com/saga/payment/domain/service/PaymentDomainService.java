@@ -33,7 +33,7 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
             return;
         }
         Payment payment = paymentRepositoryApi.createPayment(claim.orderId(), claim.refundAmount(), claim.customerId());
-        paymentProducerApi.send(payment);
+        paymentProducerApi.sendPayment(payment);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
                 .toList();
 
         payments = paymentRepositoryApi.createBankTransaction(payments);
-        payments.forEach(paymentProducerApi::send);
+        payments.forEach(paymentProducerApi::sendPayment);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
         Payment payment = maybePayment.get();
         payment = payment.updateStatus(TransactionStatus.CANCELLED);
         payment = paymentRepositoryApi.save(payment);
-        paymentProducerApi.send(payment);
+        paymentProducerApi.sendPayment(payment);
         return true;
     }
 
@@ -75,7 +75,7 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
                     null,
                     order.customerId()));
             List<Payment> payments = paymentRepositoryApi.createBankTransaction(List.of(payment));
-            payments.forEach(paymentProducerApi::send);
+            payments.forEach(paymentProducerApi::sendPayment);
 
         }
     }

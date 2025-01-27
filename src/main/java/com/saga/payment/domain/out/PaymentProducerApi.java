@@ -4,5 +4,5 @@ import com.saga.payment.domain.model.Payment;
 
 public interface PaymentProducerApi {
 
-    void send(Payment payment);
+    void sendPayment(Payment payment);
 }

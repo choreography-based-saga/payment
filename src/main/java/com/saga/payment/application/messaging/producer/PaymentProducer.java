@@ -14,7 +14,7 @@ public class PaymentProducer implements PaymentProducerApi {
 
     private final StreamBridge streamBridge;
 
-    public void send(Payment payment) {
+    public void sendPayment(Payment payment) {
         streamBridge.send(StreamBindingsConstants.PAYMENT,
                 MessageBuilder.withPayload(payment).build());
     }

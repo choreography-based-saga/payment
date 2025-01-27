@@ -7,7 +7,7 @@ spring:
     username: ${POSTGRES_USER:postgres}
   cloud:
     function:
-      definition: payment;claim;order;
+      definition: sendPayment;claim;order;
     config:
       enable: true
     stream:
@@ -32,7 +32,7 @@ spring:
             buffer.memory: 33554432
             linger.ms: 1
       bindings:
-        payment-out-0:
+        sendPayment-out-0:
           destination: payment
           content-type: application/json
         claim-in-0:
